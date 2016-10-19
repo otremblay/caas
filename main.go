@@ -19,6 +19,9 @@ func main() {
 
 func getTimeZone(rw http.ResponseWriter, req *http.Request) {
 	timezone := strings.TrimPrefix(req.URL.Path, "/")
+	if timezone == "" {
+		timezone = time.Local.String()
+	}
 	location, err := time.LoadLocation(timezone)
 	if err != nil {
 		rw.WriteHeader(http.StatusBadRequest)

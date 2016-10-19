@@ -11,10 +11,14 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		log.Fatal("Usage: " + os.Args[0] + " <port number>")
+	port := "8080"
+	if len(os.Args) > 1 {
+		port = os.Args[1]
 	}
-	http.ListenAndServe(":"+os.Args[1], http.HandlerFunc(getTimeZone))
+	err := http.ListenAndServe(":"+port, http.HandlerFunc(getTimeZone))
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
 
 func getTimeZone(rw http.ResponseWriter, req *http.Request) {
